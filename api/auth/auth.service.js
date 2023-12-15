@@ -5,28 +5,32 @@ const cryptr = new Cryptr(process.env.SECRET || 'Secret-Puk-1234')
 
 const login = async (userCredentials) => {
     console.log(`userCredentials:`, userCredentials)
-    const { username, password } = userCredentials
+    const { email, password } = userCredentials
 
-    const user = await userService.getByUsername(username)
+    const user = await userService.getByEmail(email)
     console.log(`user:`, user)
-    if (!user) return Promise.reject('Invalid username or password')
+    if (!user) return Promise.reject('Invalid email or password')
 
     const match = await bcrypt.compare(password, user.password)
-    if (!match) return Promise.reject('Invalid username or password')
+    if (!match) return Promise.reject('Invalid email or password')
 
     delete user.password
     user._id = user._id.toString()
-    return user
+    
+    console.log(user)
+    return user;
+
+    // return user
 }
 
 const signup = async (userDetails) => {
     console.log(`userDetails:`, userDetails)
     const saltRounds = 10;
-    const { username, password, firstName, lastName } = userDetails
-    if (!username || !password || !firstName || !lastName) return Promise.reject("Missing required user's signup details")
+    const { email, password, phoneNumber, firstName, lastName } = userDetails
+    if (!email || !password || !firstName || !lastName || !phoneNumber) return Promise.reject("Missing required user's signup details")
 
-    const existingUser = await userService.getByUsername(username)
-    if (existingUser) return Promise.reject('Username already exist')
+    const existingUser = await userService.getByEmail(email)
+    if (existingUser) return Promise.reject('email already exist')
 
     const hash = await bcrypt.hash(password, saltRounds)
 

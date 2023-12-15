@@ -30,12 +30,13 @@ const getById = async (userId) => {
     }
 }
 
-const getByUsername = async (username) => {
+const getByEmail = async (email) => {
     try {
         const collection = await dbService.getCollection(USER_COLLECTION)
         const user = await collection.findOne({
-            username
+            email
         })
+        console.log("get by email:", user)
         return user
     } catch (err) {
         console.error(`err:`, err)
@@ -72,7 +73,7 @@ const update = async (user) => {
 module.exports = {
     query,
     getById,
-    getByUsername,
+    getByEmail,
     add,
     update
 }
