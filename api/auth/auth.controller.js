@@ -6,7 +6,8 @@ const login = async (req, res) => {
     try {
         console.log(`login in:`, userCredentials)
         const user = await authService.login(userCredentials)
-        res.json({user})
+        res.json(user)
+        // res.json({user})
     } catch (err) {
         console.error(`err:`, err)
         res.status(401).send({ err: 'Failed to login' })
