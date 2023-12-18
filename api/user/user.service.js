@@ -54,19 +54,24 @@ const add = async (user) => {
 }
 
 const update = async (user) => {
+    console.log("entered update function in user service")
     try {
-        const userToUpdate = {
-            _id: ObjectId(user._id)
-        }
+        // Convert the string ID to an ObjectId
+        const userId = new ObjectId(user._id);
 
-        const collection = dbService.getCollection(USER_COLLECTION);
+        // Clone the user object and remove the _id field
+        const userToUpdate = { ...user };
+        delete userToUpdate._id; // Removing _id as it's not updated
+
+        const collection = await dbService.getCollection(USER_COLLECTION);
         await collection.updateOne(
-            { _id: userToUpdate._id },
-            { $set: userToUpdate }
-        )
-        return userToUpdate;
+            { _id: userId },
+            { $set: userToUpdate } // Update the fields in userToUpdate
+        );
+
+        return userToUpdate; // Optionally, return the updated user data
     } catch (err) {
-        console.error(`err:`, err)
+        console.error(`err:`, err);
     }
 }
 

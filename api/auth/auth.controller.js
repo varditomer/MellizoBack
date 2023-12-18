@@ -6,6 +6,7 @@ const login = async (req, res) => {
     try {
         console.log(`login in:`, userCredentials)
         const user = await authService.login(userCredentials)
+        console.log("auth controller user:" ,user)
         res.json(user)
         // res.json({user})
     } catch (err) {

@@ -23,6 +23,7 @@ const getUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
+    console.log("Entered UpdateUser inside user controller")
     try {
         const user = req.body
         const updatedUser = await userService.update(user)
