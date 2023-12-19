@@ -23,14 +23,16 @@ const getUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    console.log("Entered UpdateUser inside user controller")
     try {
-        const user = req.body
-        const updatedUser = await userService.update(user)
+        const user = req.body;
+        const updatedUser = await userService.update(user);
+        console.log("updateUser in user.controller:", updatedUser)
+        res.status(200).json(updatedUser); // Always sending a 200 status
     } catch (err) {
-        
+        console.log("updateUser error in user constoller")
+        res.status(500).send({ error: 'Failed to update user' });
     }
-}
+};
 
 module.exports = {
     getUsers,
