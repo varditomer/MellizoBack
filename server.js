@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 
 
 const app = express();
@@ -19,9 +20,11 @@ if (process.env.NODE_ENV === 'production') {
 
 const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
+const userFilesRoutes = require('./api/userFiles/userFiles.routes');
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/userFiles', userFilesRoutes); // userFiles or userfiles?
 
 
 
