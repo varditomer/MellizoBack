@@ -1,6 +1,8 @@
 const dbService = require('../../services/db.service');
 const path = require('path');
 const fs = require('fs');
+const ObjectId = require('mongodb').ObjectId;
+
 
 const uploadFiles = async (files, userId, userEmail) => {
   try {
@@ -35,8 +37,16 @@ const getByEmail = async (email) => {
   return await collection.find({ userEmail: email }).toArray();
 };
 
+const getFileById = async (fileId) => {
+  console.log("entered get file by id")
+  const collection = await dbService.getCollection('userFiles');
+  const file = await collection.findOne({ _id: ObjectId(fileId) });
+  return file;
+};
+
 
 module.exports = {
   uploadFiles,
-  getByEmail
+  getByEmail,
+  getFileById
 };

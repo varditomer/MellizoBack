@@ -24,7 +24,29 @@ const getByEmail = async (req, res) => {
   }
 };
 
+
+
+const downloadFile = async (req, res) => {
+  console.log("entered downloadFile in controller")
+  try {
+    const fileId = req.params.fileId;
+    const file = await userFilesService.getFileById(fileId);
+    
+    if (!file) {
+      return res.status(404).send('File not found');
+    }
+
+    const filePath = file.storagePath;
+    res.download(filePath, file.originalName);
+  } catch (error) {
+    console.error('Error downloading file:', error);
+    res.status(500).send('Error downloading file');
+  }
+};
+
+
 module.exports = {
   uploadFiles,
-  getByEmail
+  getByEmail,
+  downloadFile
 };
