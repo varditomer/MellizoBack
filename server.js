@@ -24,7 +24,7 @@ const userFilesRoutes = require('./api/userFiles/userFiles.routes');
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
-app.use('/api/userFiles', userFilesRoutes); // userFiles or userfiles?
+app.use('/api/user-files', userFilesRoutes);
 
 
 
