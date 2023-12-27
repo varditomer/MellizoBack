@@ -4,7 +4,7 @@ const fs = require('fs');
 const ObjectId = require('mongodb').ObjectId;
 
 
-const uploadFiles = async (files, userId, userEmail) => {
+const uploadFiles = async (files, userId, userEmail, description) => {
   try {
     console.log("entered storeFiles function -service")
 
@@ -14,9 +14,14 @@ const uploadFiles = async (files, userId, userEmail) => {
       const storagePath = path.join(__dirname, 'uploads', `${Date.now()}-${file.originalname}`);
       fs.renameSync(file.path, storagePath);
 
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().split('T')[0];
+      
       const fileRecord = {
         userId: userId,
         userEmail: userEmail,
+        description: description,
+        dateUploaded: formattedDate,
         originalName: file.originalname,
         storagePath: storagePath,
         mimeType: file.mimetype,

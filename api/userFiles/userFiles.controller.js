@@ -7,7 +7,8 @@ const uploadFiles = async (req, res) => {
   try {
     const userId = req.body.userId;
     const userEmail = req.body.userEmail;
-    await userFilesService.uploadFiles(req.files, userId, userEmail);
+    const description = req.body.description;
+    await userFilesService.uploadFiles(req.files, userId, userEmail,description);
     res.status(200).send('Files uploaded successfully');
   } catch (error) {
     res.status(500).send('Error uploading files');
