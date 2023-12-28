@@ -45,9 +45,24 @@ const downloadFile = async (req, res) => {
   }
 };
 
+const storeFeedback = async (req, res) => {
+  console.log("feedback controller")
+
+  try {
+    const userEmail = req.body.userEmail;
+    const feedback = req.body.feedback;
+    await userFilesService.storeFeedback(userEmail, feedback);
+    res.status(200).send('Feedback stored successfully');
+  } catch (error) {
+    console.error('Error storing feedback:', error);
+    res.status(500).send('Error storing feedback');
+  }
+};
+
 
 module.exports = {
   uploadFiles,
   getByEmail,
-  downloadFile
+  downloadFile,
+  storeFeedback
 };

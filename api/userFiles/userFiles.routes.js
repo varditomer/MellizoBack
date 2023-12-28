@@ -6,10 +6,10 @@ const path = require('path');
 // const upload = multer({ dest: uploadsDir });
 const upload = multer({ dest: 'api/userFiles/uploads' }); 
 
-const { uploadFiles, getByEmail, downloadFile } = require('./userFiles.controller');
+const { uploadFiles, getByEmail, downloadFile, storeFeedback } = require('./userFiles.controller');
 const router = express.Router();
 
-
+router.post('/feedback', storeFeedback);
 router.post('/upload', upload.array('files'), uploadFiles);
 router.get('/by-email/:email', getByEmail);
 router.get('/download/:fileId', downloadFile);

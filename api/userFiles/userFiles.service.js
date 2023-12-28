@@ -1,3 +1,4 @@
+//userFiles.service:
 const dbService = require('../../services/db.service');
 const path = require('path');
 const fs = require('fs');
@@ -36,6 +37,7 @@ const uploadFiles = async (files, userId, userEmail, description) => {
   }
 };
 
+
 const getByEmail = async (email) => {
   console.log("entered getByEmail of userFiles.service")
   const collection = await dbService.getCollection('userFiles');
@@ -49,9 +51,28 @@ const getFileById = async (fileId) => {
   return file;
 };
 
+const storeFeedback = async (userEmail, feedback) => {
+  console.log("feedback service")
+  try {
+    const feedbackCollection = await dbService.getCollection('feedback');
+    const feedbackRecord = {
+      userEmail,
+      feedback,
+      timestamp: new Date(),
+    };
+    await feedbackCollection.insertOne(feedbackRecord);
+  } catch (error) {
+    console.error('Error in storeFeedback:', error);
+    throw error;
+  }
+};
+
+
+
 
 module.exports = {
   uploadFiles,
   getByEmail,
-  getFileById
+  getFileById,
+  storeFeedback
 };
