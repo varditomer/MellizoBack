@@ -47,7 +47,7 @@ const getByEmail = async (email) => {
 const getFileById = async (fileId) => {
   console.log("entered get file by id")
   const collection = await dbService.getCollection('userFiles');
-  const file = await collection.findOne({ _id: ObjectId(fileId) });
+  const file = await collection.findOne({ _id: new ObjectId(fileId) });
   return file;
 };
 

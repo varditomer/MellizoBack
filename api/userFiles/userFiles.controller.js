@@ -38,6 +38,7 @@ const downloadFile = async (req, res) => {
     }
 
     const filePath = file.storagePath;
+    console.log(filePath)
     res.download(filePath, file.originalName);
   } catch (error) {
     console.error('Error downloading file:', error);
