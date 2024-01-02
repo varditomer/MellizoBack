@@ -14,7 +14,7 @@ git clone https://github.com/varditomer/MellizoBack.git
 # Installing Dependencies
 ```
 After cloning the repository, navigate into the project directory:
-cd MellizoFront
+cd MellizoBack
 
 You can check if Node.js and npm are installed by running the following commands in your terminal or command prompt:
 node -v
