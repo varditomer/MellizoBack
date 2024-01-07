@@ -1,3 +1,4 @@
+//server.js
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -20,11 +21,11 @@ if (process.env.NODE_ENV === 'production') {
 
 const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
-const userFilesRoutes = require('./api/userFiles/userFiles.routes');
+const userModelRoutes = require('./api/userModel/userModel.routes');
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
-app.use('/api/user-files', userFilesRoutes);
+app.use('/api/user-model', userModelRoutes);
 
 
 

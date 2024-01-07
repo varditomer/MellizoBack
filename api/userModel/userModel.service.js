@@ -1,15 +1,15 @@
-//userFiles.service:
+//userModel.service:
 const dbService = require('../../services/db.service');
 const path = require('path');
 const fs = require('fs');
 const ObjectId = require('mongodb').ObjectId;
 
 
-const uploadFiles = async (files, userId, userEmail, description) => {
+const uploadModel = async (files, userId, userEmail, modelName, modelDescription) => {
   try {
-    console.log("entered storeFiles function -service")
+    console.log("entered store Model function -service")
 
-    const filesCollection = await dbService.getCollection('userFiles');
+    const ModelCollection = await dbService.getCollection('userModel');
 
     for (const file of files) {
       const storagePath = path.join(__dirname, 'uploads', `${Date.now()}-${file.originalname}`);
@@ -17,11 +17,12 @@ const uploadFiles = async (files, userId, userEmail, description) => {
 
       const currentDate = new Date();
       const formattedDate = currentDate.toISOString().split('T')[0];
-      
-      const fileRecord = {
+
+      const modelRecord = {
         userId: userId,
         userEmail: userEmail,
-        description: description,
+        modelName: modelName,
+        description: modelDescription,
         dateUploaded: formattedDate,
         originalName: file.originalname,
         storagePath: storagePath,
@@ -29,19 +30,30 @@ const uploadFiles = async (files, userId, userEmail, description) => {
         size: file.size,
       };
 
-      await filesCollection.insertOne(fileRecord);
+      await ModelCollection.insertOne(modelRecord);
     }
   } catch (error) {
-    console.error('Error in storeFiles:', error);
+    console.error('Error in storeModel:', error);
     throw error;
   }
 };
 
 
 const getByEmail = async (email) => {
-  console.log("entered getByEmail of userFiles.service")
-  const collection = await dbService.getCollection('userFiles');
+  console.log("entered getByEmail of userModel.service")
+  const collection = await dbService.getCollection('userModel');
   return await collection.find({ userEmail: email }).toArray();
+};
+
+const getByModelName = async (modelName) => {
+  try {
+    const collection = await dbService.getCollection('userModel');
+    const model = await collection.findOne({ modelName: modelName });
+    return model;
+  } catch (error) {
+    console.error('Error in getByModelName:', error);
+    throw error;
+  }
 };
 
 const getFileById = async (fileId) => {
@@ -71,8 +83,9 @@ const storeFeedback = async (userEmail, feedback) => {
 
 
 module.exports = {
-  uploadFiles,
+  uploadModel,
   getByEmail,
   getFileById,
-  storeFeedback
+  storeFeedback,
+  getByModelName
 };

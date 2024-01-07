@@ -1,27 +1,41 @@
-// userFiles.controller.js
-const userFilesService = require('./userFiles.service');
+// userModel.controller.js
+const userModelService = require('./userModel.service');
 
-const uploadFiles = async (req, res) => {
-  console.log("entered uploadFiles -controller")
+const uploadModel = async (req, res) => {
+  console.log("entered uploadModel -controller")
 
   try {
     const userId = req.body.userId;
     const userEmail = req.body.userEmail;
+    const modelName = req.body.modelName;
     const description = req.body.description;
-    await userFilesService.uploadFiles(req.files, userId, userEmail,description);
-    res.status(200).send('Files uploaded successfully');
+    await userModelService.uploadModel(req.files, userId, userEmail,modelName, description);
+    res.status(200).send('Model uploaded successfully');
   } catch (error) {
-    res.status(500).send('Error uploading files');
+    res.status(500).send('Error uploading Model');
   }
 };
 
 const getByEmail = async (req, res) => {
   try {
       const userEmail = req.params.email;
-      const files = await userFilesService.getByEmail(userEmail);
+      const files = await userModelService.getByEmail(userEmail);
       res.json(files);
   } catch (error) {
       res.status(500).send('Error retrieving files');
+  }
+};
+
+const getModelFilePath = async (req, res) => {
+  try {
+    const modelName = req.params.modelName;
+    const model = await userModelService.getByModelName(modelName);
+    if (!model) {
+      return res.status(404).send('Model not found');
+    }
+    res.json({ filePath: model.storagePath });
+  } catch (error) {
+    res.status(500).send('Error retrieving model file path');
   }
 };
 
@@ -31,7 +45,7 @@ const downloadFile = async (req, res) => {
   console.log("entered downloadFile in controller")
   try {
     const fileId = req.params.fileId;
-    const file = await userFilesService.getFileById(fileId);
+    const file = await userModelService.getFileById(fileId);
     
     if (!file) {
       return res.status(404).send('File not found');
@@ -52,7 +66,7 @@ const storeFeedback = async (req, res) => {
   try {
     const userEmail = req.body.userEmail;
     const feedback = req.body.feedback;
-    await userFilesService.storeFeedback(userEmail, feedback);
+    await userModelService.storeFeedback(userEmail, feedback);
     res.status(200).send('Feedback stored successfully');
   } catch (error) {
     console.error('Error storing feedback:', error);
@@ -62,8 +76,9 @@ const storeFeedback = async (req, res) => {
 
 
 module.exports = {
-  uploadFiles,
+  uploadModel,
   getByEmail,
   downloadFile,
+  getModelFilePath,
   storeFeedback
 };

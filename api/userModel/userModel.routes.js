@@ -1,4 +1,4 @@
-// userFiles.routes.js
+// userModel.routes.js
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -6,13 +6,15 @@ const path = require('path');
 // const upload = multer({ dest: uploadsDir });
 const upload = multer({ dest: 'api/userFiles/uploads' }); 
 
-const { uploadFiles, getByEmail, downloadFile, storeFeedback } = require('./userFiles.controller');
+const { uploadModel, getByEmail, downloadFile, storeFeedback,getModelFilePath } = require('./userModel.controller');
 const router = express.Router();
 
 router.post('/feedback', storeFeedback);
-router.post('/upload', upload.array('files'), uploadFiles);
+router.post('/upload', upload.array('files'), uploadModel);
 router.get('/by-email/:email', getByEmail);
 router.get('/download/:fileId', downloadFile);
+router.get('/filepath/:modelName', getModelFilePath);
+
 
 
 module.exports = router;
