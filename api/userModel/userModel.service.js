@@ -58,7 +58,7 @@ const getByModelName = async (modelName) => {
 
 const getFileById = async (fileId) => {
   console.log("entered get file by id")
-  const collection = await dbService.getCollection('userFiles');
+  const collection = await dbService.getCollection('userModel');
   const file = await collection.findOne({ _id: new ObjectId(fileId) });
   return file;
 };
