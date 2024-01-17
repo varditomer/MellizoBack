@@ -8,10 +8,12 @@ const uploadScaleUp = async (req, res) => {
         const userId = req.body.userId;
         const userEmail = req.body.userEmail;
         const scaleUpName = req.body.scaleUpName;
-        const description = req.body.scaleUpDescription;
+        const scaleUpDescription = req.body.aBug;
         const bioreactorParams = JSON.parse(req.body.bioreactorParams);
         const cellParams = JSON.parse(req.body.cellParams);
-        await userScaleUpService.uploadScaleUp(req.files, userId, userEmail, scaleUpName, description, bioreactorParams, cellParams);
+        console.log("DESCRIPTION@@@@@", scaleUpDescription)
+
+        await userScaleUpService.uploadScaleUp(req.files, userId, userEmail, scaleUpName, scaleUpDescription, bioreactorParams, cellParams);
         res.status(200).send('scale up uploaded successfully');
     } catch (error) {
         res.status(500).send('Error uploading scale up');
@@ -19,12 +21,25 @@ const uploadScaleUp = async (req, res) => {
 };
 
 const getByEmail = async (req, res) => {
+    console.log("entered get by email of SCALE UP")
     try {
         const userEmail = req.params.email;
         const files = await userScaleUpService.getByEmail(userEmail);
         res.json(files);
     } catch (error) {
         res.status(500).send('Error retrieving files');
+    }
+};
+
+const getByScaleUpName = async (req, res) => {
+    console.log("entered get by name of SCALE UP controller")
+    try {
+        const scaleUpName = req.params.scaleUpName;
+        const details = await userScaleUpService.getByScaleUpName(scaleUpName);
+        console.log("ctr result:", details)
+        res.json(details);
+    } catch (error) {
+        res.status(500).send('Error retrieving scaleup details');
     }
 };
 
@@ -35,7 +50,7 @@ const getScaleUpFilePath = async (req, res) => {
         if (!scaleUp) {
             return res.status(404).send('scaleup not found');
         }
-        res.json({ filePath: scaleUp.storagePath });
+        res.json({ ourFilePath: scaleUp.ourStoragePath, otrFilePath: scaleUp.otrStoragePath });
     } catch (error) {
         res.status(500).send('Error retrieving scaleup file path');
     }
@@ -69,5 +84,6 @@ module.exports = {
     uploadScaleUp,
     getByEmail,
     downloadFile,
-    getScaleUpFilePath
+    getScaleUpFilePath,
+    getByScaleUpName
 };

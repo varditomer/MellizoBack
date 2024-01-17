@@ -8,6 +8,7 @@ const ObjectId = require('mongodb').ObjectId;
 const uploadScaleUp = async (files, userId, userEmail, scaleUpName, scaleUpDescription, bioreactorParams, cellParams) => {
     try {
         console.log("entered upload scaleup function -service")
+        console.log("DESCRIPTION@@@@@ service", scaleUpDescription)
 
         const ScaleUpCollection = await dbService.getCollection('userScaleUp');
 
@@ -60,11 +61,18 @@ const getByEmail = async (email) => {
     const collection = await dbService.getCollection('userScaleUp');
     return await collection.find({ userEmail: email }).toArray();
 };
+// const getByName = async (scaleUpName) => {
+//     console.log("entered getByEmail of userScaleUp.service")
+//     const collection = await dbService.getCollection('userScaleUp');
+//     return await collection.find({ userEmail: email }).toArray();
+// };
 
 const getByScaleUpName = async (scaleUpName) => {
+    console.log("entered get by name of SCALE UP service", scaleUpName)
     try {
         const collection = await dbService.getCollection('userScaleUp');
         const scaleUp = await collection.findOne({ scaleUpName: scaleUpName });
+        console.log("result", scaleUp)
         return scaleUp;
     } catch (error) {
         console.error('Error in getByScaleUpName:', error);

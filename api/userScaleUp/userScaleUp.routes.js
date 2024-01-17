@@ -6,12 +6,13 @@ const path = require('path');
 // const upload = multer({ dest: uploadsDir });
 const upload = multer({ dest: 'api/userFiles/multerTemp/uploads' }); 
 
-const { uploadScaleUp, getByEmail, downloadFile,getScaleUpFilePath } = require('./userScaleUp.controller');
+const { uploadScaleUp, getByEmail, downloadFile,getScaleUpFilePath, getByScaleUpName } = require('./userScaleUp.controller');
 const router = express.Router();
 
 router.post('/upload', upload.fields([{ name: 'ourFiles' }, { name: 'otrFiles' }]), uploadScaleUp);
-// router.get('/by-email/:email', getByEmail);
+router.get('/by-email/:email', getByEmail);
 // router.get('/download/:fileId', downloadFile);
-// router.get('/file-path/:scaleUpName', getScaleUpFilePath);
+router.get('/file-path/:scaleUpName', getScaleUpFilePath);
+router.get('/getByScaleUpName/:scaleUpName', getByScaleUpName); // get details by su name
 
 module.exports = router;
