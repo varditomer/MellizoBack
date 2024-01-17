@@ -12,7 +12,7 @@ const uploadModel = async (files, userId, userEmail, modelName, modelDescription
     const ModelCollection = await dbService.getCollection('userModel');
 
     for (const file of files) {
-      const storagePath = path.join(__dirname, 'uploads', `${Date.now()}-${file.originalname}`);
+      const storagePath = path.join(__dirname, 'modelsFilesuploads', `${Date.now()}-${file.originalname}`);
       fs.renameSync(file.path, storagePath);
 
       const currentDate = new Date();

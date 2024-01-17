@@ -22,10 +22,12 @@ if (process.env.NODE_ENV === 'production') {
 const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
 const userModelRoutes = require('./api/userModel/userModel.routes');
+const userScaleUpRoutes = require('./api/userScaleUp/userScaleUp.routes');
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/user-model', userModelRoutes);
+app.use('/api/user-scaleup', userScaleUpRoutes);
 
 
 
