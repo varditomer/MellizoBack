@@ -26,10 +26,8 @@ const updateUser = async (req, res) => {
     try {
         const user = req.body;
         const updatedUser = await userService.update(user);
-        console.log("updateUser in user.controller:", updatedUser)
         res.status(200).json(updatedUser); // Always sending a 200 status
     } catch (err) {
-        console.log("updateUser error in user constoller")
         res.status(500).send({ error: 'Failed to update user' });
     }
 };

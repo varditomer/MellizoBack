@@ -2,16 +2,16 @@
 const userScaleUpService = require('./userScaleUp.service');
 
 const uploadScaleUp = async (req, res) => {
-    console.log("entered upload scale up -controller")
 
     try {
-        const userId = req.body.userId;
-        const userEmail = req.body.userEmail;
-        const scaleUpName = req.body.scaleUpName;
-        const scaleUpDescription = req.body.aBug;
+        const {
+            userId,
+            userEmail,
+            scaleUpName,
+            aBug: scaleUpDescription,
+        } = req.body;
         const bioreactorParams = JSON.parse(req.body.bioreactorParams);
         const cellParams = JSON.parse(req.body.cellParams);
-        console.log("DESCRIPTION@@@@@", scaleUpDescription)
 
         await userScaleUpService.uploadScaleUp(req.files, userId, userEmail, scaleUpName, scaleUpDescription, bioreactorParams, cellParams);
         res.status(200).send('scale up uploaded successfully');
@@ -21,7 +21,6 @@ const uploadScaleUp = async (req, res) => {
 };
 
 const getByEmail = async (req, res) => {
-    console.log("entered get by email of SCALE UP")
     try {
         const userEmail = req.params.email;
         const files = await userScaleUpService.getByEmail(userEmail);
@@ -31,12 +30,10 @@ const getByEmail = async (req, res) => {
     }
 };
 
-const getByScaleUpName = async (req, res) => {
-    console.log("entered get by name of SCALE UP controller")
+const getByScaleUpID = async (req, res) => {
     try {
-        const scaleUpName = req.params.scaleUpName;
-        const details = await userScaleUpService.getByScaleUpName(scaleUpName);
-        console.log("ctr result:", details)
+        const scaleUpID = req.params.scaleUpID;
+        const details = await userScaleUpService.getByScaleUpID(scaleUpID);
         res.json(details);
     } catch (error) {
         res.status(500).send('Error retrieving scaleup details');
@@ -59,7 +56,6 @@ const getScaleUpFilePath = async (req, res) => {
 
 
 const downloadFile = async (req, res) => {
-    console.log("entered downloadFile in controller")
     try {
         const fileId = req.params.fileId;
         const file = await userScaleUpService.getFileById(fileId);
@@ -69,7 +65,6 @@ const downloadFile = async (req, res) => {
         }
 
         const filePath = file.storagePath;
-        console.log(filePath)
         res.download(filePath, file.originalName);
     } catch (error) {
         console.error('Error downloading file:', error);
@@ -85,5 +80,5 @@ module.exports = {
     getByEmail,
     downloadFile,
     getScaleUpFilePath,
-    getByScaleUpName
+    getByScaleUpID
 };

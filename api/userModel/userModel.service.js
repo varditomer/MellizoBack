@@ -7,7 +7,6 @@ const ObjectId = require('mongodb').ObjectId;
 
 const uploadModel = async (files, userId, userEmail, modelName, modelDescription) => {
   try {
-    console.log("entered store Model function -service")
 
     const ModelCollection = await dbService.getCollection('userModel');
 
@@ -40,15 +39,16 @@ const uploadModel = async (files, userId, userEmail, modelName, modelDescription
 
 
 const getByEmail = async (email) => {
-  console.log("entered getByEmail of userModel.service")
   const collection = await dbService.getCollection('userModel');
   return await collection.find({ userEmail: email }).toArray();
 };
 
-const getByModelName = async (modelName) => {
+const getByModelID = async (modelID) => {
+
   try {
     const collection = await dbService.getCollection('userModel');
-    const model = await collection.findOne({ modelName: modelName });
+    const id = new ObjectId(modelID); // Convert modelID to ObjectId
+    const model = await collection.findOne({ _id: id });
     return model;
   } catch (error) {
     console.error('Error in getByModelName:', error);
@@ -57,14 +57,12 @@ const getByModelName = async (modelName) => {
 };
 
 const getFileById = async (fileId) => {
-  console.log("entered get file by id")
   const collection = await dbService.getCollection('userModel');
   const file = await collection.findOne({ _id: new ObjectId(fileId) });
   return file;
 };
 
 const storeFeedback = async (userEmail, feedback) => {
-  console.log("feedback service")
   try {
     const feedbackCollection = await dbService.getCollection('feedback');
     const feedbackRecord = {
@@ -87,5 +85,5 @@ module.exports = {
   getByEmail,
   getFileById,
   storeFeedback,
-  getByModelName
+  getByModelID
 };

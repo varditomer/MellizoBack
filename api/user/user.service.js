@@ -36,7 +36,6 @@ const getByEmail = async (email) => {
         const user = await collection.findOne({
             email
         })
-        console.log("get by email:", user)
         return user
     } catch (err) {
         console.error(`err:`, err)
@@ -44,7 +43,6 @@ const getByEmail = async (email) => {
 }
 
 const add = async (user) => {
-    console.log(`user:`, user)
     try {
         const collection = await dbService.getCollection(USER_COLLECTION);
         collection.insertOne(user)
@@ -61,10 +59,8 @@ const update = async (user) => {
 
         const collection = await dbService.getCollection(USER_COLLECTION);
         await collection.updateOne({ _id: userId }, { $set: userToUpdate });
-        console.log("backend finished updating")
         return userToUpdate; // Return the updated user data
     } catch (err) {
-        console.error(`Error in updating user:`, err);
         throw err; // Rethrow the error to be handled by the caller
     }
 }

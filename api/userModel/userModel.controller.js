@@ -2,13 +2,14 @@
 const userModelService = require('./userModel.service');
 
 const uploadModel = async (req, res) => {
-  console.log("entered uploadModel -controller")
 
   try {
-    const userId = req.body.userId;
-    const userEmail = req.body.userEmail;
-    const modelName = req.body.modelName;
-    const description = req.body.description;
+    const {userId,
+      userEmail,
+      modelName,
+      description
+    } = req.body
+
     await userModelService.uploadModel(req.files, userId, userEmail,modelName, description);
     res.status(200).send('Model uploaded successfully');
   } catch (error) {
@@ -28,12 +29,12 @@ const getByEmail = async (req, res) => {
 
 const getModelFilePath = async (req, res) => {
   try {
-    const modelName = req.params.modelName;
-    const model = await userModelService.getByModelName(modelName);
+    const modelID = req.params.modelID;
+    const model = await userModelService.getByModelID(modelID);
     if (!model) {
       return res.status(404).send('Model not found');
     }
-    res.json({ filePath: model.storagePath });
+    res.json(model);
   } catch (error) {
     res.status(500).send('Error retrieving model file path');
   }
@@ -42,7 +43,6 @@ const getModelFilePath = async (req, res) => {
 
 
 const downloadFile = async (req, res) => {
-  console.log("entered downloadFile in controller")
   try {
     const fileId = req.params.fileId;
     const file = await userModelService.getFileById(fileId);
@@ -52,16 +52,13 @@ const downloadFile = async (req, res) => {
     }
 
     const filePath = file.storagePath;
-    console.log(filePath)
     res.download(filePath, file.originalName);
   } catch (error) {
-    console.error('Error downloading file:', error);
     res.status(500).send('Error downloading file');
   }
 };
 
 const storeFeedback = async (req, res) => {
-  console.log("feedback controller")
 
   try {
     const userEmail = req.body.userEmail;

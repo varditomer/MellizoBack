@@ -13,7 +13,8 @@ router.post('/feedback', storeFeedback);
 router.post('/upload', upload.array('files'), uploadModel);
 router.get('/by-email/:email', getByEmail);
 router.get('/download/:fileId', downloadFile);
-router.get('/file-path/:modelName', getModelFilePath);
+// router.get('/file-path/:modelName', getModelFilePath);
+router.get('/file-path/:modelID', getModelFilePath);
 
 
 //test
