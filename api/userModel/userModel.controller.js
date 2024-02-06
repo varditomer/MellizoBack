@@ -26,6 +26,17 @@ const getByEmail = async (req, res) => {
       res.status(500).send('Error retrieving files');
   }
 };
+const getRecentByEmail = async (req, res) => {
+  console.log("recent controller")
+  try {
+      const userEmail = req.params.email;
+      const recentModel = await userModelService.getRecentByEmail(userEmail);
+      console.log(recentModel)
+      res.json(recentModel);
+  } catch (error) {
+      res.status(500).send('Error retrieving recentModel');
+  }
+};
 
 const getModelFilePath = async (req, res) => {
   try {
@@ -75,6 +86,7 @@ const storeFeedback = async (req, res) => {
 module.exports = {
   uploadModel,
   getByEmail,
+  getRecentByEmail,
   downloadFile,
   getModelFilePath,
   storeFeedback

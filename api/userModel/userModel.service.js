@@ -43,6 +43,16 @@ const getByEmail = async (email) => {
   return await collection.find({ userEmail: email }).toArray();
 };
 
+const getRecentByEmail = async (email) => {
+  const collection = await dbService.getCollection('userModel');
+  
+  // Sort by _id in descending order to get the most recent document
+  return await collection.findOne(
+    { userEmail: email },
+    { sort: { _id: -1 } } // Using _id to determine the most recent document
+  );
+};
+
 const getByModelID = async (modelID) => {
 
   try {
@@ -83,6 +93,7 @@ const storeFeedback = async (userEmail, feedback) => {
 module.exports = {
   uploadModel,
   getByEmail,
+  getRecentByEmail,
   getFileById,
   storeFeedback,
   getByModelID

@@ -42,6 +42,8 @@ const getByEmail = async (email) => {
     }
 }
 
+
+
 const add = async (user) => {
     try {
         const collection = await dbService.getCollection(USER_COLLECTION);
