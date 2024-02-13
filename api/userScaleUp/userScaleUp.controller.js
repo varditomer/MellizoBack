@@ -33,6 +33,7 @@ const getByEmail = async (req, res) => {
 const getByScaleUpID = async (req, res) => {
     try {
         const scaleUpID = req.params.scaleUpID;
+        console.log(scaleUpID)
         const details = await userScaleUpService.getByScaleUpID(scaleUpID);
         res.json(details);
     } catch (error) {
@@ -42,16 +43,27 @@ const getByScaleUpID = async (req, res) => {
 
 const getScaleUpFilePath = async (req, res) => {
     try {
-        const scaleUpName = req.params.scaleUpName;
-        const scaleUp = await userScaleUpService.getByScaleUpName(scaleUpName);
+
+        const scaleUpID = req.params.scaleUpID;
+        const scaleUp = await userScaleUpService.getFilePathByScaleUpID(scaleUpID);
         if (!scaleUp) {
             return res.status(404).send('scaleup not found');
         }
-        res.json({ ourFilePath: scaleUp.ourStoragePath, otrFilePath: scaleUp.otrStoragePath });
+        res.json({ ourStoragePath: scaleUp.ourStoragePath, otrStoragePath: scaleUp.otrStoragePath });
     } catch (error) {
         res.status(500).send('Error retrieving scaleup file path');
     }
 };
+
+const getRecentByEmail = async (req, res) => {
+    try {
+        const userEmail = req.params.email;
+        const recentScaleUp = await userScaleUpService.getRecentByEmail(userEmail);
+        res.json(recentScaleUp);
+    } catch (error) {
+        res.status(500).send('Error retrieving recent Scale Up');
+    }
+  };
 
 
 
@@ -80,5 +92,6 @@ module.exports = {
     getByEmail,
     downloadFile,
     getScaleUpFilePath,
-    getByScaleUpID
+    getByScaleUpID,
+    getRecentByEmail
 };

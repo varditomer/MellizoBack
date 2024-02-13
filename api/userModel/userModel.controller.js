@@ -27,11 +27,10 @@ const getByEmail = async (req, res) => {
   }
 };
 const getRecentByEmail = async (req, res) => {
-  console.log("recent controller")
   try {
+    
       const userEmail = req.params.email;
       const recentModel = await userModelService.getRecentByEmail(userEmail);
-      console.log(recentModel)
       res.json(recentModel);
   } catch (error) {
       res.status(500).send('Error retrieving recentModel');
@@ -41,7 +40,7 @@ const getRecentByEmail = async (req, res) => {
 const getModelFilePath = async (req, res) => {
   try {
     const modelID = req.params.modelID;
-    const model = await userModelService.getByModelID(modelID);
+    const model = await userModelService.getFilePathByModelID(modelID);
     if (!model) {
       return res.status(404).send('Model not found');
     }

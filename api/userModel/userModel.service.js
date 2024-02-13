@@ -53,7 +53,7 @@ const getRecentByEmail = async (email) => {
   );
 };
 
-const getByModelID = async (modelID) => {
+const getFilePathByModelID = async (modelID) => {
 
   try {
     const collection = await dbService.getCollection('userModel');
@@ -96,5 +96,5 @@ module.exports = {
   getRecentByEmail,
   getFileById,
   storeFeedback,
-  getByModelID
+  getFilePathByModelID
 };

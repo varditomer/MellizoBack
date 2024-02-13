@@ -64,14 +64,42 @@ const getByEmail = async (email) => {
 //     return await collection.find({ userEmail: email }).toArray();
 // };
 
-const getByScaleUpID = async (scaleUpID) => {
+const getRecentByEmail = async (email) => {
+
+    const collection = await dbService.getCollection('userScaleUp');
+    
+    // Sort by _id in descending order to get the most recent document
+    return await collection.findOne(
+      { userEmail: email },
+      { sort: { _id: -1 } } // Using _id to determine the most recent document
+    );
+  };
+
+ 
+
+const getFilePathByScaleUpID = async (scaleUpID) => {
     try {
+
+
         const collection = await dbService.getCollection('userScaleUp');
         const id = new ObjectId(scaleUpID); // Convert scaleUpID to ObjectId
         const scaleUp = await collection.findOne({ _id: id });
         return scaleUp;
     } catch (error) {
-        console.error('Error in getByScaleUpName:', error);
+        console.error('Error in getByScaleUpID:', error);
+        throw error;
+    }
+};
+const getByScaleUpID = async (scaleUpID) => {
+    try {
+
+
+        const collection = await dbService.getCollection('userScaleUp');
+        const id = new ObjectId(scaleUpID); // Convert scaleUpID to ObjectId
+        const scaleUp = await collection.findOne({ _id: id });
+        return scaleUp;
+    } catch (error) {
+        console.error('Error in getByScaleUpID:', error);
         throw error;
     }
 };
@@ -88,5 +116,7 @@ module.exports = {
     uploadScaleUp,
     getByEmail,
     getFileById,
+    getFilePathByScaleUpID,
+    getRecentByEmail,
     getByScaleUpID
 };
