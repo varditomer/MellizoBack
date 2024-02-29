@@ -10,8 +10,9 @@ const uploadModel = async (req, res) => {
       description
     } = req.body
 
-    await userModelService.uploadModel(req.files, userId, userEmail,modelName, description);
-    res.status(200).send('Model uploaded successfully');
+    const insertedId = await userModelService.uploadModel(req.files, userId, userEmail,modelName, description);
+    // res.status(200).send('Model uploaded successfully');
+    res.status(200).json({insertedId}); // Send the created model back, including its ID
   } catch (error) {
     res.status(500).send('Error uploading Model');
   }

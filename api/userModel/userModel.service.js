@@ -9,6 +9,7 @@ const uploadModel = async (files, userId, userEmail, modelName, modelDescription
   try {
 
     const ModelCollection = await dbService.getCollection('userModel');
+    let insertedId = null; // This will store the last inserted ID
 
     for (const file of files) {
       const storagePath = path.join(__dirname, 'modelsFilesuploads', `${Date.now()}-${file.originalname}`);
@@ -29,8 +30,10 @@ const uploadModel = async (files, userId, userEmail, modelName, modelDescription
         size: file.size,
       };
 
-      await ModelCollection.insertOne(modelRecord);
+      const result = await ModelCollection.insertOne(modelRecord);
+      insertedId = result.insertedId; // Store the last insertedId
     }
+    return insertedId;
   } catch (error) {
     console.error('Error in storeModel:', error);
     throw error;
